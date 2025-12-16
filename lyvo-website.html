@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LYVO — Commit to Who You're Becoming</title>
+    <meta name="description" content="LYVO is a mindful commitment app that helps you become who you want to be through daily 15-second reflections. No streaks, no metrics — just you, showing up.">
+    <meta name="theme-color" content="#0a0a0a">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --emerald: #34C759;
+            --emerald-dim: rgba(52, 199, 89, 0.15);
+            --emerald-glow: rgba(52, 199, 89, 0.4);
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-tertiary: rgba(255, 255, 255, 0.4);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--emerald);
+            border-radius: 50%;
+            animation: breathe 4s ease-in-out infinite;
+        }
+
+        @keyframes breathe {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 400;
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--emerald-dim) 0%, transparent 70%);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-tagline {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: var(--emerald);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards;
+        }
+
+        .hero h1 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.1s forwards;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--emerald);
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin: 0 auto 3rem;
+            font-weight: 300;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.2s forwards;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .app-store-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--text-primary);
+            color: var(--bg-primary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.3s forwards;
+        }
+
+        .app-store-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 40px rgba(52, 199, 89, 0.2);
+        }
+
+        .app-store-btn svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* Commitment Dot Visual */
+        .commitment-dot {
+            width: 120px;
+            height: 120px;
+            background: var(--text-primary);
+            border-radius: 50%;
+            margin: 4rem auto 0;
+            position: relative;
+            animation: breatheDot 4s ease-in-out infinite;
+            opacity: 0;
+            animation: fadeUp 0.8s ease 0.4s forwards, breatheDot 4s ease-in-out 1s infinite;
+        }
+
+        @keyframes breatheDot {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.1);
+            }
+            50% { 
+                transform: scale(1.05);
+                box-shadow: 0 0 60px 20px rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        /* Philosophy Section */
+        .philosophy {
+            padding: 8rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .philosophy-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .philosophy-header h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .philosophy-header p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .philosophy-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .philosophy-card:hover {
+            border-color: rgba(52, 199, 89, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .philosophy-card h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .philosophy-card h3::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--emerald);
+            border-radius: 50%;
+        }
+
+        .philosophy-card p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .features-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .features-text h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-list {
+            list-style: none;
+        }
+
+        .features-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            color: var(--emerald);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .phone-mockup {
+            aspect-ratio: 9/16;
+            max-width: 280px;
+            margin: 0 auto;
+            background: var(--bg-tertiary);
+            border-radius: 40px;
+            border: 4px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            width: 80px;
+            height: 24px;
+            background: var(--bg-primary);
+            border-radius: 12px;
+        }
+
+        .phone-inner-dot {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            animation: breatheDot 4s ease-in-out infinite;
+        }
+
+        /* Legal Pages */
+        .legal-section {
+            padding: 10rem 2rem 6rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .legal-section h1 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .legal-section .updated {
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+            margin-bottom: 3rem;
+        }
+
+        .legal-section h2 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin: 2.5rem 0 1rem;
+            color: var(--text-primary);
+        }
+
+        .legal-section p, .legal-section li {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .legal-section ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .legal-section a {
+            color: var(--emerald);
+            text-decoration: none;
+        }
+
+        .legal-section a:hover {
+            text-decoration: underline;
+        }
+
+        /* Support Section */
+        .support-section {
+            padding: 10rem 2rem 6rem;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .support-section h1 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .support-section > p {
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+        }
+
+        .support-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: left;
+        }
+
+        .support-card h2 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .support-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .support-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--emerald);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.75rem 1.5rem;
+            background: var(--emerald-dim);
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .support-email:hover {
+            background: rgba(52, 199, 89, 0.25);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--text-tertiary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-secondary);
+        }
+
+        .footer-copyright {
+            color: var(--text-tertiary);
+            font-size: 0.875rem;
+            width: 100%;
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Page visibility */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 7rem 1.5rem 3rem;
+            }
+
+            .philosophy {
+                padding: 4rem 1.5rem;
+            }
+
+            .features-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .phone-mockup {
+                order: -1;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+
+        /* Menu for mobile */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="#" class="logo" onclick="showPage('home'); return false;">
+            <span class="logo-dot"></span>
+            LYVO
+        </a>
+        <ul class="nav-links">
+            <li><a href="#philosophy">Philosophy</a></li>
+            <li><a href="#" onclick="showPage('support'); return false;">Support</a></li>
+            <li><a href="#" onclick="showPage('privacy'); return false;">Privacy</a></li>
+        </ul>
+        <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+        </button>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="hero-content">
+                <p class="hero-tagline">A different kind of commitment</p>
+                <h1>Commit to who you're <em>becoming</em></h1>
+                <p class="hero-description">
+                    LYVO is a mindful commitment app that helps you become who you want to be through daily 15-second reflections. No streaks, no metrics — just you, showing up.
+                </p>
+                <a href="https://apps.apple.com/app/lyvo" class="app-store-btn">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                    </svg>
+                    Download on the App Store
+                </a>
+                <div class="commitment-dot"></div>
+            </div>
+        </section>
+
+        <section class="philosophy" id="philosophy">
+            <div class="philosophy-header">
+                <h2>A philosophy of becoming</h2>
+                <p>LYVO is built on behavioral psychology, not gamification. Here's what makes it different.</p>
+            </div>
+            <div class="philosophy-grid">
+                <div class="philosophy-card">
+                    <h3>Identity over goals</h3>
+                    <p>Traditional apps track what you do. LYVO focuses on who you're becoming. When you commit to being "someone who exercises," the behavior follows naturally.</p>
+                </div>
+                <div class="philosophy-card">
+                    <h3>Consistency compounds</h3>
+                    <p>Showing up matters more than performance. A 15-second reflection on a hard day is worth more than a perfect day you never acknowledge.</p>
+                </div>
+                <div class="philosophy-card">
+                    <h3>Reflection deepens change</h3>
+                    <p>Quick daily reflections create awareness. Awareness creates intention. Intention becomes identity. The cycle reinforces itself.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="features-content">
+                <div class="features-text">
+                    <h2>Intentionally minimal</h2>
+                    <ul class="features-list">
+                        <li>
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            <span>One commitment at a time — focus creates clarity</span>
+                        </li>
+                        <li>
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                            <span>15-second daily reflections — brief but meaningful</span>
+                        </li>
+                        <li>
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span>Gentle reminders — morning, midday, or evening</span>
+                        </li>
+                        <li>
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            <span>Rolling archive — see your journey unfold</span>
+                        </li>
+                        <li>
+                            <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            <span>Privacy-first — your reflections stay on your device</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="phone-mockup">
+                    <div class="phone-inner-dot"></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Privacy Policy Page -->
+    <div id="privacy" class="page">
+        <section class="legal-section">
+            <h1>Privacy Policy</h1>
+            <p class="updated">Last updated: December 2024</p>
+
+            <p>LYVO ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we handle information when you use our mobile application.</p>
+
+            <h2>Information We Don't Collect</h2>
+            <p>LYVO is designed with privacy at its core. We do not collect, store, or transmit any personal information to external servers. Specifically:</p>
+            <ul>
+                <li>We do not collect your name, email, or contact information</li>
+                <li>We do not track your location</li>
+                <li>We do not collect usage analytics or behavioral data</li>
+                <li>We do not use third-party tracking or advertising services</li>
+                <li>We do not share any data with third parties</li>
+            </ul>
+
+            <h2>Data Stored on Your Device</h2>
+            <p>All your commitments, reflections, and app preferences are stored locally on your device. This data never leaves your device and is not accessible to us or any third party. This includes:</p>
+            <ul>
+                <li>Your commitment text and history</li>
+                <li>Daily reflection entries</li>
+                <li>Notification preferences and times</li>
+                <li>App settings and preferences</li>
+            </ul>
+
+            <h2>In-App Purchases</h2>
+            <p>LYVO offers optional premium features through Apple's App Store. All purchase transactions are processed by Apple and are subject to <a href="https://www.apple.com/legal/privacy/" target="_blank">Apple's Privacy Policy</a>. We do not have access to your payment information.</p>
+
+            <h2>Data Security</h2>
+            <p>Since all data is stored locally on your device, it is protected by your device's built-in security features, including encryption and your device passcode or biometric authentication.</p>
+
+            <h2>Data Deletion</h2>
+            <p>You can delete all your data at any time by deleting the LYVO app from your device. Since no data is stored on external servers, deletion is complete and permanent.</p>
+
+            <h2>Children's Privacy</h2>
+            <p>LYVO is not directed at children under the age of 13. We do not knowingly collect any information from children.</p>
+
+            <h2>Changes to This Policy</h2>
+            <p>We may update this Privacy Policy from time to time. Any changes will be reflected in the app and on this page with an updated revision date.</p>
+
+            <h2>Contact Us</h2>
+            <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:support@lyvoapp.com">support@lyvoapp.com</a></p>
+        </section>
+    </div>
+
+    <!-- Terms of Service Page -->
+    <div id="terms" class="page">
+        <section class="legal-section">
+            <h1>Terms of Service</h1>
+            <p class="updated">Last updated: December 2024</p>
+
+            <p>Welcome to LYVO. By downloading, installing, or using our application, you agree to be bound by these Terms of Service.</p>
+
+            <h2>Use of the App</h2>
+            <p>LYVO is a personal commitment tracking application designed to help you build positive habits through daily reflection. You may use the app for your personal, non-commercial purposes in accordance with these terms.</p>
+
+            <h2>User Content</h2>
+            <p>You retain full ownership of any content you create within the app, including your commitments and reflections. This content is stored locally on your device and is not transmitted to or accessed by us.</p>
+
+            <h2>Subscriptions and Purchases</h2>
+            <p>LYVO offers optional premium features available through in-app purchases:</p>
+            <ul>
+                <li>Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period</li>
+                <li>Payment is charged to your Apple ID account at confirmation of purchase</li>
+                <li>You can manage and cancel subscriptions in your App Store account settings</li>
+                <li>Refunds are handled by Apple according to their refund policy</li>
+            </ul>
+
+            <h2>Disclaimers</h2>
+            <p>LYVO is provided "as is" without warranties of any kind. While we strive to provide a helpful tool for personal development, we make no guarantees about the results you may achieve. The app is not a substitute for professional medical, psychological, or therapeutic advice.</p>
+
+            <h2>Limitation of Liability</h2>
+            <p>To the maximum extent permitted by law, we shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the app.</p>
+
+            <h2>Changes to Terms</h2>
+            <p>We reserve the right to modify these terms at any time. Continued use of the app after changes constitutes acceptance of the new terms.</p>
+
+            <h2>Contact</h2>
+            <p>For questions about these Terms of Service, please contact us at <a href="mailto:support@lyvoapp.com">support@lyvoapp.com</a></p>
+        </section>
+    </div>
+
+    <!-- Support Page -->
+    <div id="support" class="page">
+        <section class="support-section">
+            <h1>Support</h1>
+            <p>We're here to help you get the most out of LYVO.</p>
+
+            <div class="support-card">
+                <h2>Get in Touch</h2>
+                <p>Have a question, suggestion, or running into an issue? We'd love to hear from you. We typically respond within 24-48 hours.</p>
+                <a href="mailto:support@lyvoapp.com" class="support-email">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                        <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                    support@lyvoapp.com
+                </a>
+            </div>
+
+            <div class="support-card" style="margin-top: 2rem;">
+                <h2>Frequently Asked Questions</h2>
+                
+                <h3 style="font-size: 1rem; margin-top: 1.5rem; color: var(--text-primary);">How do I change my commitment?</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">You can archive your current commitment and start a new one at any time. Tap on your commitment to access options, or start fresh from the home screen.</p>
+
+                <h3 style="font-size: 1rem; color: var(--text-primary);">What happens to my data if I delete the app?</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">All your data is stored locally on your device. If you delete the app, your data is permanently removed. We don't store anything on external servers.</p>
+
+                <h3 style="font-size: 1rem; color: var(--text-primary);">How do I restore my purchase on a new device?</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Go to Settings within the app and tap "Restore Purchases." Make sure you're signed into the same Apple ID you used for the original purchase.</p>
+
+                <h3 style="font-size: 1rem; color: var(--text-primary);">Can I use LYVO on multiple devices?</h3>
+                <p style="color: var(--text-secondary);">Your premium purchase works across all your iOS devices signed into the same Apple ID. However, since data is stored locally, your commitments and history won't sync between devices.</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-dot"></span>
+                LYVO
+            </div>
+            <ul class="footer-links">
+                <li><a href="#" onclick="showPage('home'); return false;">Home</a></li>
+                <li><a href="#" onclick="showPage('support'); return false;">Support</a></li>
+                <li><a href="#" onclick="showPage('privacy'); return false;">Privacy Policy</a></li>
+                <li><a href="#" onclick="showPage('terms'); return false;">Terms of Service</a></li>
+            </ul>
+            <p class="footer-copyright">© 2024 LYVO. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Handle anchor links on home page
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href.startsWith('#') && href.length > 1 && !this.hasAttribute('onclick')) {
+                    e.preventDefault();
+                    showPage('home');
+                    setTimeout(() => {
+                        const target = document.querySelector(href);
+                        if (target) {
+                            target.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 100);
+                }
+            });
+        });
+
+        // Simple mobile menu toggle
+        function toggleMobileMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+            navLinks.style.position = 'absolute';
+            navLinks.style.top = '100%';
+            navLinks.style.left = '0';
+            navLinks.style.right = '0';
+            navLinks.style.background = 'rgba(10, 10, 10, 0.95)';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.padding = '1rem 2rem';
+            navLinks.style.gap = '1rem';
+            navLinks.style.borderBottom = '1px solid var(--border)';
+        }
+    </script>
+</body>
+</html>
